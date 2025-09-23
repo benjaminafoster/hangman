@@ -25,10 +25,10 @@ def main():
 
 def guess_letter(char_flag_list:list[CharFlag], guessed_list: list, state: dict):
     # Components of letter guess: 
-    # (1) get letter, 
-    # (2) check if letter in phrase, 
-    # (3) track if guess is correct & update tracker, 
-    # (4) add letter to guessed letters list)
+        # (1) get letter, 
+        # (2) check if letter in phrase, 
+        # (3) track if guess is correct & update tracker, 
+        # (4) add letter to guessed letters list)
     
     guess = input("Guess a letter: ")
     correct_guess = False
