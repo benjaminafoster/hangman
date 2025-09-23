@@ -7,7 +7,7 @@ def main():
     secret_phrase = get_phrase()
     char_list = list(secret_phrase)
     guessed_list: list = []
-    num_incorrect_guesses: int = 0
+    state = {'count': 0}
     print(f"Chosen phrase: {secret_phrase}")
     char_flag_list = []
     for char in char_list:
@@ -17,13 +17,13 @@ def main():
             char_flag_list.append(CharFlag(char, True))
 
     while True:
-        print(render_hidden_phrase(char_flag_list))
         print(f"Guessed letters: {", ".join(guessed_list)}")
-        print(f"Incorrect guesses: {num_incorrect_guesses}\n\n")
-        guess_letter(char_flag_list, guessed_list, num_incorrect_guesses)
+        print(f"Incorrect guesses: {state['count']}\n\n")
+        print(render_hidden_phrase(char_flag_list))
+        guess_letter(char_flag_list, guessed_list, state)
     
 
-def guess_letter(char_flag_list:list[CharFlag], guessed_list: list, num_incorrect_guesses:int):
+def guess_letter(char_flag_list:list[CharFlag], guessed_list: list, state: dict):
     # Components of letter guess: 
     # (1) get letter, 
     # (2) check if letter in phrase, 
@@ -39,9 +39,10 @@ def guess_letter(char_flag_list:list[CharFlag], guessed_list: list, num_incorrec
             guessed_list.append(char.char)
         else:
             continue
-    
-    if not correct_guess:
-        num_incorrect_guesses += 1 #TODO: This isn't currently counting incorrect guesses
+
+    if correct_guess == False:
+        print("You entered an incorrect guess!")
+        state['count'] += 1 
 
 
 def render_hidden_phrase(char_flag_list:list[CharFlag]):
