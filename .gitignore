@@ -1,0 +1,4 @@
+# Directory exclusions
+venv/
+
+# File exclusions
