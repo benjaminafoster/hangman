@@ -1,4 +1,4 @@
-from man import stages
+from ascii_man import stages
 import os
 
 class CharFlag:
