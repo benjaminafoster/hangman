@@ -1,5 +1,6 @@
 from ascii_man import stages
 import os
+import time
 
 
 class CharFlag:
@@ -57,20 +58,35 @@ def guess_letter(char_flag_list:list[CharFlag], guessed_list: list, state: dict)
         # (4) add letter to guessed letters list)
     
     guess = input("Guess a letter: ")
-    correct_guess = False
-    for char in char_flag_list:
-        if char.char == guess or char.char.lower() == guess:
-            char.flag = True
-            correct_guess = True
-            state['score'] += 1
-        else:
-            continue
+    #TODO: need to do some input validation (is letter? is single char? is already in guessed list?)
+    is_valid= is_valid_char(guess, guessed_list)
+    if is_valid:
+        correct_guess = False
+        for char in char_flag_list:
+            if char.char == guess or char.char.lower() == guess:
+                char.flag = True
+                correct_guess = True
+                state['score'] += 1
+            else:
+                continue
 
-    if correct_guess == False:
-        state['stage'] += 1 
+        if correct_guess == False:
+            state['stage'] += 1 
+        
+        guessed_list.append(guess)
+    else:
+        print("Invalid guess. Try again.")
+        time.sleep(2)
+        
+
+def is_valid_char(char:str, guessed_list:list) -> bool:
+    is_alpha = char.isalpha()
+    char_count = len(char)
+    in_guessed_list = True if char in guessed_list else False
+    if is_alpha and char_count == 1 and in_guessed_list == False:
+        return True
     
-    guessed_list.append(guess)
-
+    return False
 
 def render_stage(game_state:dict) -> str:
     stage_num = game_state['stage']
