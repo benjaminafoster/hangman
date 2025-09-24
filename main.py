@@ -22,19 +22,21 @@ def main():
             state['winning_score'] += 1
         else:
             char_flag_list.append(CharFlag(char, True))
+    try:
+        while True:
+            if state['score'] == state['winning_score']:
+                print("You won!!!")
+                break
 
-    while True:
-        if state['score'] == state['winning_score']:
-            print("You won!!!")
-            break
-
-        clear_terminal()
-        print(render_stage(state))
-        print("")
-        print(render_hidden_phrase(char_flag_list))
-        print("")
-        print(f"Guessed letters: {", ".join(guessed_list)}")
-        guess_letter(char_flag_list, guessed_list, state)
+            clear_terminal()
+            print(render_stage(state))
+            print("")
+            print(render_hidden_phrase(char_flag_list))
+            print("")
+            print(f"Guessed letters: {", ".join(guessed_list)}")
+            guess_letter(char_flag_list, guessed_list, state)
+    except KeyboardInterrupt:
+        print("\nExiting game...thanks for playing!")
 
 def clear_terminal():
     os.system('cls' if os.name == 'nt' else 'clear')    
