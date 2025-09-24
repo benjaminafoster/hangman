@@ -87,13 +87,14 @@ def is_valid_char(char:str, guessed_list:list) -> bool:
     
     return False
 
+
 def render_stage(game_state:dict) -> str:
     stage_num = game_state['stage']
     return stages[stage_num]
     
 
 def render_hidden_phrase(char_flag_list:list[CharFlag]):
-    hidden_phrase = "" # later on I'm going to break this out into a render_hidden_phrase function that will have the char_tuple_list passed into it
+    hidden_phrase = "" 
     for char in char_flag_list:
         if char.flag:
             hidden_phrase = hidden_phrase + char.char
