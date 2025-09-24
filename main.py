@@ -1,3 +1,6 @@
+from man import stages
+import os
+
 class CharFlag:
     def __init__(self, char:str, flag:bool):
         self.char = char
@@ -7,21 +10,34 @@ def main():
     secret_phrase = get_phrase()
     char_list = list(secret_phrase)
     guessed_list: list = []
-    state = {'count': 0}
-    print(f"Chosen phrase: {secret_phrase}")
+    state = {
+        'stage': 0,
+        'score': 0,
+        'winning_score': 0
+    }
     char_flag_list = []
     for char in char_list:
         if char.isalpha():
             char_flag_list.append(CharFlag(char, False))
+            state['winning_score'] += 1
         else:
             char_flag_list.append(CharFlag(char, True))
 
     while True:
-        print(f"Guessed letters: {", ".join(guessed_list)}")
-        print(f"Incorrect guesses: {state['count']}\n\n")
+        if state['score'] == state['winning_score']:
+            print("You won!!!")
+            break
+
+        clear_terminal()
+        print(render_stage(state))
+        print("")
         print(render_hidden_phrase(char_flag_list))
+        print("")
+        print(f"Guessed letters: {", ".join(guessed_list)}")
         guess_letter(char_flag_list, guessed_list, state)
-    
+
+def clear_terminal():
+    os.system('cls' if os.name == 'nt' else 'clear')    
 
 def guess_letter(char_flag_list:list[CharFlag], guessed_list: list, state: dict):
     # Components of letter guess: 
@@ -36,14 +52,18 @@ def guess_letter(char_flag_list:list[CharFlag], guessed_list: list, state: dict)
         if char.char == guess or char.char.lower() == guess:
             char.flag = True
             correct_guess = True
-            guessed_list.append(char.char)
         else:
             continue
 
     if correct_guess == False:
-        print("You entered an incorrect guess!")
-        state['count'] += 1 
+        state['stage'] += 1 
+    
+    guessed_list.append(guess)
 
+def render_stage(game_state:dict) -> str:
+    stage_num = game_state['stage']
+    return stages[stage_num]
+    
 
 def render_hidden_phrase(char_flag_list:list[CharFlag]):
     hidden_phrase = "" # later on I'm going to break this out into a render_hidden_phrase function that will have the char_tuple_list passed into it
