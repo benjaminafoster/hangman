@@ -28,10 +28,10 @@ def main():
     try:
         while True:
             if state['score'] == state['winning_score']:
-                print("You won!!!")
+                print("\033[32mYou won!!!\033[39m")
                 break
             elif state['stage'] == 6:
-                print("You lose, try again!")
+                print("\033[31mYou lose, try again!\033[39m")
                 break
 
             clear_terminal()
@@ -58,7 +58,6 @@ def guess_letter(char_flag_list:list[CharFlag], guessed_list: list, state: dict)
         # (4) add letter to guessed letters list)
     
     guess = input("Guess a letter: ")
-    #TODO: need to do some input validation (is letter? is single char? is already in guessed list?)
     is_valid= is_valid_char(guess, guessed_list)
     if is_valid:
         correct_guess = False
@@ -75,7 +74,7 @@ def guess_letter(char_flag_list:list[CharFlag], guessed_list: list, state: dict)
         
         guessed_list.append(guess)
     else:
-        print("Invalid guess. Try again.")
+        print("\033[31mInvalid guess. Try again.\033[39m")
         time.sleep(2)
         
 
